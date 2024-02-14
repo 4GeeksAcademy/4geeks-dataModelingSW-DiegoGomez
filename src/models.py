@@ -21,6 +21,9 @@ class User(Base):
     # Relación con la tabla de favoritos
     favorites = relationship("Favorite")
 
+#Para las propiedades de Character y Planet, me he basado en mi proyecto de Star Wars, simulando
+#la creación de una base de datos para los campos que yo quise mostrar en el proyecto
+    
 # Clase User
 class Character(Base):
     # Nombre de la tabla
@@ -32,6 +35,9 @@ class Character(Base):
     eye_color = Column(String(250))
     birth_year = Column(String(250))
     height = Column(Integer)
+    # El id de homeworld (planeta) que se muestra es una foreignkey que referencia el id
+    # de la tabla planet. Esta relación es de uno a uno, es decir, cada personaje individualmente
+    # pertenece a un planeta concreto, aunque varios personajes pueden pertenecer a un mismo planeta.
     homeworld_id = Column(Integer, ForeignKey('planet.id'))
     # Relación con la tabla de planetas
     homeworld = relationship("Planet")
@@ -54,8 +60,10 @@ class Favorite(Base):
     __tablename__ = 'favorite'
     id = Column(Integer, primary_key=True)
     # El id de usuario que se muestra es una foreignkey que viene del id que tiene la tabla usuario
+    # esta relación es de uno a muchos, de forma que un usuario puede tener varios favoritos.
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    # Para gestionar que se almacena en favoritos, este campo almacena el tipo de favorito (planet o character).
     favorite_type = Column(String(50)) 
     favorite_id = Column(Integer)
 
